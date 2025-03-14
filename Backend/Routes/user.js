@@ -13,7 +13,7 @@ router.post("/login",async (req,res)=>{
         email:result.email,
     }
     const token = getKey(payload);
-    return res.cookie("token",token).json({"token":token});
+    return res.json({"event":"true","token":token,"user":payload});
     
 })
 router.post("/signup",async(req,res)=>{
@@ -22,11 +22,10 @@ router.post("/signup",async(req,res)=>{
     return res.status(201).json({"event":"true","id":result._id})
 })
 
-router.get("/check",(req,res)=>{
-    const token = req.cookies.token;
+router.post("/check",(req,res)=>{
+    const {token} = req.body;
     try{
         const user=validateKey(token)
-        console.log(user)
         if(!user) return res.json({"event":"false"});
         return res.json({"event":"true","user":user});
     }
