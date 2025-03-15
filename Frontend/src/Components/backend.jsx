@@ -1,5 +1,5 @@
 function Backend() {
-  return "http://localhost:8000";
+  return "https://blogify-lovat-seven.vercel.app";
 }
 
 export default Backend;
