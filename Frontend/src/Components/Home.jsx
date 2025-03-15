@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import defaultImg from "../assets/default.png";
-import { IoArrowDown } from "react-icons/io5";
+import Backend from "./Backend";
 import Card from "./Card";
 import axios from "axios";
 // import { useUser } from "../Context/Usercontext";
@@ -13,7 +12,7 @@ function Home() {
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const response = await axios.post("http://localhost:8000/user/check", {
+      const response = await axios.post(`${Backend()}/user/check`, {
         token: token,
       });
       if (response.data.event == "true") {
@@ -28,13 +27,13 @@ function Home() {
     }
   };
   async function getData(userA) {
-    const response = await axios.post(`http://localhost:8000/blog/all`, {
+    const response = await axios.post(`${Backend()}/blog/all`, {
       userId: userA.id,
     });
     if (response.data.event == "true") {
       setData(response.data.data);
     } else {
-      console.log(response.data.message);
+      // console.log(response.data.message);
     }
   }
   useEffect(() => {

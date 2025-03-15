@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
+import Backend from "./Backend";
 import { useNavigate } from "react-router-dom";
 
 function Myblogs() {
@@ -10,7 +11,7 @@ function Myblogs() {
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const response = await axios.post("http://localhost:8000/user/check", {
+      const response = await axios.post(`${Backend()}/user/check`, {
         token: token,
       });
       if (response.data.event == "true") {
@@ -25,13 +26,13 @@ function Myblogs() {
     }
   };
   async function getData(userA) {
-    const response = await axios.post(`http://localhost:8000/blog/allmy`, {
+    const response = await axios.post(`${Backend()}/blog/allmy`, {
       userId: userA.id,
     });
     if (response.data.event == "true") {
       setData(response.data.data);
     } else {
-      console.log(response.data.message);
+      // console.log(response.data.message);
     }
   }
   useEffect(() => {
@@ -50,22 +51,20 @@ function Myblogs() {
             </h1>
             <h1 className="font-inst text-[30px] select-none">{user.name}</h1>
           </div>
-          <div className="px-3 py-10 grid  grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-4 gap-y-5 w-full place-items-center">
-            {data != null ? (
-              <>
-                {data.map((element) => {
-                  return (
-                    <Card
-                      key={element._id}
-                      imageUrl={element.imageUrl}
-                      title={element.title}
-                      id={element._id}
-                    ></Card>
-                  );
-                })}
-              </>
+          <div className="px-3 py-10 grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-4 gap-y-5 w-full place-items-center">
+            {data && data.length > 0 ? (
+              data.map((element) => (
+                <Card
+                  key={element._id}
+                  imageUrl={element.imageUrl}
+                  title={element.title}
+                  id={element._id}
+                />
+              ))
             ) : (
-              ""
+              <div className="font-inst text-[30px] select-none absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                No Blogs..
+              </div>
             )}
           </div>
         </>

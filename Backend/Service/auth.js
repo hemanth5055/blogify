@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken")
-
 function getKey(user){
     const token = jwt.sign(user,process.env.JWT_KEY)
     return token;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoArrowDown } from "react-icons/io5";
+import Backend from "./Backend";
 import axios from "axios";
-import defaultImg2 from "../assets/default2.avif";
 import person from "../assets/person.png";
 
 function Blogview() {
@@ -10,15 +10,14 @@ function Blogview() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   async function getData(id) {
-    const response = await axios.get(`http://localhost:8000/blog/${id}`);
-
+    const response = await axios.get(`${Backend()}/blog/${id}`);
     if (response.data.event == "true") {
       setData(response.data.data);
     } else {
-      console.log(response.data.message);
+      // console.log(response.data.message);
     }
   }
-  
+
   useEffect(() => {
     getData(id);
   }, []);

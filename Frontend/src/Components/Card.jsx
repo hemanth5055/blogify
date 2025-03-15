@@ -1,5 +1,4 @@
 import React from "react";
-import defaultImg from "../assets/default.png";
 import { IoArrowDown } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 

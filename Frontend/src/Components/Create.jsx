@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Backend from "./Backend";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 function Create() {
@@ -12,7 +13,7 @@ function Create() {
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const response = await axios.post("http://localhost:8000/user/check", {
+      const response = await axios.post(`${Backend()}/user/check`, {
         token: token,
       });
       if (response.data.event == "true") {
@@ -48,10 +49,9 @@ function Create() {
       const response = await axios.post("http://localhost:8000/blog/upload", {
         ...post,
       });
-      console.log(response);
+      // console.log(response);
       if (response.data.event == "true") {
         navigate(`/blog/${response.data.data._id}`);
-        console.log("hello");
       }
     }
   };

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import Backend from "./Backend";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -9,7 +10,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handlesubmit = async () => {
-    const response = await axios.post("http://localhost:8000/user/signup", {
+    const response = await axios.post(`${Backend()}/user/signup`, {
       name,
       email,
       password,
@@ -19,7 +20,7 @@ function Signup() {
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const response = await axios.post("http://localhost:8000/user/check", {
+      const response = await axios.post(`${Backend()}/user/check`, {
         token: token,
       });
       if (response.data.event == "true") navigate("/");
