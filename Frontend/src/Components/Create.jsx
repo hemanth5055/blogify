@@ -18,6 +18,7 @@ function Create() {
       if (response.data.event == "true") {
         setUser(response.data.user);
       } else {
+        localStorage.removeItem("token");
         navigate("/login");
       }
     } else {
@@ -27,8 +28,33 @@ function Create() {
   useEffect(() => {
     checkAuth();
   }, []);
-
-  const handleSubmit = () => {};
+  function getCurrentDate() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+  const handleSubmit = async () => {
+    if (title.length > 0 && body.length > 0) {
+      const post = {
+        title,
+        body,
+        imageUrl: file,
+        createdDate: getCurrentDate(),
+        ownerName: user.name,
+        writtenBy: user.id,
+      };
+      const response = await axios.post("http://localhost:8000/blog/upload", {
+        ...post,
+      });
+      console.log(response);
+      if (response.data.event == "true") {
+        navigate(`/blog/${response.data.data._id}`);
+        console.log("hello");
+      }
+    }
+  };
   return (
     <div className="w-full h-screen px-7 py-4 pl-10">
       <div className="w-full flex justify-between items-center">
@@ -48,22 +74,6 @@ function Create() {
       </div>
       <div className="w-full mt-10 flex flex-col ">
         <input
-          type="file"
-          id="image"
-          className="hidden"
-          onChange={(event) => setFile(event.target.files[0].name)}
-        />
-        <div className="flex gap-3 items-center">
-          <button
-            className="bg-[#EEEEEE] h-[50px] w-[200px] p-5 rounded-[10px] flex justify-center items-center font-monts font-medium cursor-pointer"
-            onClick={() => document.getElementById("image").click()}
-          >
-            Choose File
-          </button>
-
-          <h3 className="font-medium font-monts">{file}</h3>
-        </div>
-        <input
           type="text"
           placeholder="Title"
           value={title}
@@ -71,6 +81,13 @@ function Create() {
             setTitle(e.target.value);
           }}
           className="font-monts h-[48px] w-[350px] bg-[#EEEEEE] p-3 rounded-[5px] outline-none font-medium mt-5"
+        />
+        <input
+          type="text"
+          id="image"
+          placeholder="Paste the image URL"
+          className="font-monts h-[48px] w-[350px] bg-[#EEEEEE] p-3 rounded-[5px] outline-none font-medium mt-5"
+          onChange={(event) => setFile(event.target.value)}
         />
         <textarea
           name="body"

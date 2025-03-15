@@ -5,6 +5,7 @@ import Home from "./Components/Home";
 import Blogview from "./Components/Blogview";
 import { Route, Routes } from "react-router-dom";
 import Create from "./Components/Create";
+import Myblogs from "./Components/Myblogs";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/signup" element={<Signup></Signup>}></Route>
       <Route path="/blog/:id" element={<Blogview></Blogview>}></Route>
       <Route path="/create" element={<Create></Create>}></Route>
+      <Route path="/my-blogs" element={<Myblogs></Myblogs>}></Route>
       <Route path="/" element={<Home></Home>}></Route>
     </Routes>
   );

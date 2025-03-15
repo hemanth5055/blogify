@@ -26,6 +26,7 @@ function Login() {
         token: token,
       });
       if (response.data.event == "true") navigate("/");
+      localStorage.removeItem("token");
     }
   };
   useEffect(() => {
