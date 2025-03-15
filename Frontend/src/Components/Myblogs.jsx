@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
-import Backend from "./Backend";
 import { useNavigate } from "react-router-dom";
 
 function Myblogs() {
@@ -11,9 +10,12 @@ function Myblogs() {
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const response = await axios.post(`${Backend()}/user/check`, {
-        token: token,
-      });
+      const response = await axios.post(
+        `https://blogify-lovat-seven.vercel.app/user/check`,
+        {
+          token: token,
+        }
+      );
       if (response.data.event == "true") {
         setUser(response.data.user);
         getData(response.data.user);
@@ -26,9 +28,12 @@ function Myblogs() {
     }
   };
   async function getData(userA) {
-    const response = await axios.post(`${Backend()}/blog/allmy`, {
-      userId: userA.id,
-    });
+    const response = await axios.post(
+      `https://blogify-lovat-seven.vercel.app/blog/allmy`,
+      {
+        userId: userA.id,
+      }
+    );
     if (response.data.event == "true") {
       setData(response.data.data);
     } else {

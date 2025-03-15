@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoArrowDown } from "react-icons/io5";
-import Backend from "./Backend";
 import axios from "axios";
 import person from "../assets/person.png";
 
@@ -10,7 +9,9 @@ function Blogview() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   async function getData(id) {
-    const response = await axios.get(`${Backend()}/blog/${id}`);
+    const response = await axios.get(
+      `https://blogify-lovat-seven.vercel.app/blog/${id}`
+    );
     if (response.data.event == "true") {
       setData(response.data.data);
     } else {

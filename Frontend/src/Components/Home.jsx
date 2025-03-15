@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Backend from "./Backend";
 import Card from "./Card";
 import axios from "axios";
 // import { useUser } from "../Context/Usercontext";
@@ -12,9 +11,12 @@ function Home() {
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const response = await axios.post(`${Backend()}/user/check`, {
-        token: token,
-      });
+      const response = await axios.post(
+        `https://blogify-lovat-seven.vercel.app/user/check`,
+        {
+          token: token,
+        }
+      );
       if (response.data.event == "true") {
         setUser(response.data.user);
         getData(response.data.user);
@@ -27,9 +29,12 @@ function Home() {
     }
   };
   async function getData(userA) {
-    const response = await axios.post(`${Backend()}/blog/all`, {
-      userId: userA.id,
-    });
+    const response = await axios.post(
+      `https://blogify-lovat-seven.vercel.app/blog/all`,
+      {
+        userId: userA.id,
+      }
+    );
     if (response.data.event == "true") {
       setData(response.data.data);
     } else {

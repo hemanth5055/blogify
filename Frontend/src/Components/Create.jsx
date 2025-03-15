@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Backend from "./Backend";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 function Create() {
@@ -13,7 +12,7 @@ function Create() {
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const response = await axios.post(`${Backend()}/user/check`, {
+      const response = await axios.post(`https://blogify-lovat-seven.vercel.app/user/check`, {
         token: token,
       });
       if (response.data.event == "true") {

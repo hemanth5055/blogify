@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import Backend from "./Backend";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -10,19 +9,25 @@ function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handlesubmit = async () => {
-    const response = await axios.post(`${Backend()}/user/signup`, {
-      name,
-      email,
-      password,
-    });
+    const response = await axios.post(
+      `https://blogify-lovat-seven.vercel.app/user/signup`,
+      {
+        name,
+        email,
+        password,
+      }
+    );
     if (response.data.event == "true") navigate("/login");
   };
   const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const response = await axios.post(`${Backend()}/user/check`, {
-        token: token,
-      });
+      const response = await axios.post(
+        `https://blogify-lovat-seven.vercel.app/user/check`,
+        {
+          token: token,
+        }
+      );
       if (response.data.event == "true") navigate("/");
     }
   };
